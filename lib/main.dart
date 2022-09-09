@@ -1,3 +1,4 @@
+import 'package:cryptospace/router.dart';
 import 'package:cryptospace/screens/home_screem.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class Cryptospace extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      routes: {HomeScreen.id: (context) => HomeScreen()},
+      onGenerateRoute: (settings) => generateRoute(settings),
       initialRoute: HomeScreen.id,
     );
   }

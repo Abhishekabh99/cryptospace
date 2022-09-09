@@ -1,3 +1,4 @@
+import 'package:cryptospace/screens/detail_screen.dart';
 import 'package:cryptospace/utilities/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import '../models/crypto.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = "home_screen";
+
   const HomeScreen({super.key});
 
   @override
@@ -72,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: kBlackColor,
       appBar: AppBar(
+        // leading: SizedBox.shrink(),
         title: const Text(
           'Cryptospace',
           style: TextStyle(color: kGreenColor),
@@ -100,58 +103,64 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: ((context, index) {
                 final crypto = _cryptos[index];
 
-                return ListTile(
-                  title: Text(
-                    crypto.name,
-                    style: TextStyle(
-                      color: kGreenColor,
+                return InkWell(
+                  onTap: (() {
+                    Navigator.pushNamed(context, DetailScreen.id,
+                        arguments: crypto);
+                  }),
+                  child: ListTile(
+                    title: Text(
+                      crypto.name,
+                      style: TextStyle(
+                        color: kGreenColor,
+                      ),
                     ),
-                  ),
-                  subtitle: Text(
-                    crypto.symbol,
-                    style: TextStyle(
-                      color: kGreyColor,
+                    subtitle: Text(
+                      crypto.symbol,
+                      style: TextStyle(
+                        color: kGreyColor,
+                      ),
                     ),
-                  ),
-                  leading: SizedBox(
-                    width: 30.0,
-                    child: Center(
-                      child: Text(
-                        crypto.rank.toString(),
-                        style: TextStyle(
-                          color: kGreyColor,
+                    leading: SizedBox(
+                      width: 30.0,
+                      child: Center(
+                        child: Text(
+                          crypto.rank.toString(),
+                          style: TextStyle(
+                            color: kGreyColor,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  trailing: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${crypto.priceUsd.toStringAsFixed(2)} USD',
-                        style: TextStyle(
-                          color: kGreyColor,
+                    trailing: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${crypto.priceUsd.toStringAsFixed(2)} USD',
+                          style: TextStyle(
+                            color: kGreyColor,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 100.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            _getPrefixIcon(crypto.changePercent24hr),
-                            Text(
-                              crypto.changePercent24hr.toStringAsFixed(2),
-                              style: TextStyle(
-                                color: crypto.changePercent24hr > 0
-                                    ? kGreenColor
-                                    : kRedColor,
+                        SizedBox(
+                          width: 100.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              _getPrefixIcon(crypto.changePercent24hr),
+                              Text(
+                                crypto.changePercent24hr.toStringAsFixed(2),
+                                style: TextStyle(
+                                  color: crypto.changePercent24hr > 0
+                                      ? kGreenColor
+                                      : kRedColor,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               })),
